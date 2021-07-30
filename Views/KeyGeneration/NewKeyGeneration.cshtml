@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "NewKeyGeneration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="br-pagebody">
+    <h6 class="br-section-label">New Key Generation</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Generate" class="btn btn-info" onclick="GenerateActivationKey();" />
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">New Key</h6>
+                <input class="form-control form-control" id="txtNewKey" readonly="readonly" name="NewKey" placeholder="New Key" type="text">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Valid Day(s)</h6>
+                <input class="form-control form-control" id="txtValidDay" name="ValidDay" placeholder="Validity" type="text">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Click To Save</h6>
+                <input type="submit" value="Save" class="btn btn-info" onclick="SaveActivationKey();" />
+            </div><!-- col -->
+        </div><!-- row --> 
+    </div>
+</div>
+<script type="text/javascript">
+    function GenerateActivationKey()
+    {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GenerateActivationKey", "KeyGeneration")",
+            success: function (result) {
+                if (result.IsSuccess)
+                    $('#txtNewKey').val(result.ItemNo);
+                else
+                    toastr.error(result.Message); 
+            },
+            error: function (result, textStatus, jqXHR) {
+                toastr.error("Ajax Error");
+            }
+    });
+    }
+    function SaveActivationKey()
+    {
+        var newKey = $('#txtNewKey').val();
+        var validDays = $('#txtValidDay').val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveActivationKey", "KeyGeneration")",
+            data: { newKey: newKey, validDays: validDays },
+            success: function (result) {
+            if (result.IsSuccess)
+                toastr.success(result.Message);
+            else
+                toastr.error(result.Message);
+        },
+        error: function (result, textStatus, jqXHR) {
+
+        }
+    });
+    }
+</script>

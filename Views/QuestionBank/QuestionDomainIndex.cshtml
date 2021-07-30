@@ -1,0 +1,89 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.QuestionDomainVM>
+
+@{
+    ViewBag.Title = "QuestionDomainIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Question Domain</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("QuestionDomainSetup", "QuestionBank")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>New</a>
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-6 ">*@
+
+                <div class="bd bd-white-1 rounded table-responsive">
+                    <table class="table table-bordered table-hover mg-b-0">
+                        <thead class="thead-colored thead-primary">
+                            <tr>
+                                <th>
+                                    Question Domain
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Weight
+                                </th>
+                                <th>
+                                    Last Update
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="text-align:center">
+                                        @Html.DisplayFor(modelItem => item.Domain)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.DisplayFor(modelItem => item.DomainWeight)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.DisplayFor(modelItem => item.LastUpdate)
+                                    </td>
+                                    <td style="text-align:center">
+                                        @Html.DisplayFor(modelItem => item.StatusName)
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href='@Url.Action("QuestionDomainDetail", "QuestionBank", new { domainId = item.Id })' title="Edit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div>
+                        <ul class="pagination">
+                            @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a href='@Url.Action("QuestionDomainIndex", "QuestionBank", new { currentPage = @i-1 })' class="page-link" title="Edit">
+                                    @i
+                                </a>
+                                @*<a asp-page="/pagination" asp-route-currentpage="@i" class="page-link">@i</a>*@
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            @*</div>*@
+
+        </div>
+
+    </div>
+</div>

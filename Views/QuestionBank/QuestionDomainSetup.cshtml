@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "QuestionDomainSetup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="br-pagebody">
+    <h6 class="br-section-label">Question Domain</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("QuestionDomainIndex", "QuestionBank")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Question Domain</h6>
+                <input class="form-control form-control-dark" id="txtQuestionDomain" onKeyPress="return checkLength(this,20)" name="QuestionDomain" placeholder="Question Domain" type="text">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Weight</h6>
+                <input class="form-control form-control-dark" id="txtQuestionWeight" onKeyPress="return checkLengthWithNumberOnly(this,event,1)" name="QuestionWeight" placeholder="Domain Weight">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row pd-t-20">
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Description</h6>
+                <textarea class="form-control form-control-dark" id="txtQuestionDescription" onKeyPress="return checkLength(this,150)" rows="3" name="QuestionDescription" placeholder="Domain Description" type="text"></textarea>
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+            </div>
+        </div>
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" onclick="SaveQuestionDomain();" />
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function SaveQuestionDomain()
+    {
+        var domain = $("#txtQuestionDomain").val();
+        var description = $('#txtQuestionDescription').val();
+        var weight = $('#txtQuestionWeight').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveQuestionDomain", "QuestionBank")",
+            data: { domain: domain, description: description, questionweight: weight },
+        success: function (result) {
+            if (result.IsSuccess)
+                toastr.success(result.Message);
+            else
+                toastr.error(result.Message);
+        },
+        error: function (result, textStatus, jqXHR) {
+
+        }
+    });
+    }
+    function checkLength(el, len) {
+        if (el.value.length > len) {
+            toastr.warning("Limit Exceed");
+            return false;
+        }
+        else
+            return true;
+    }
+    function checkLengthWithNumberOnly(el, evt, len) {
+        if (el.value.length > len) {
+            toastr.warning("Limit Exceed");
+            return false;
+        }
+        else if (isNumber(evt)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function isNumber(evt) {
+        var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+        if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+        {
+            toastr.warning("Only Number");
+            return false;
+        }
+
+        return true;
+    }    
+</script>

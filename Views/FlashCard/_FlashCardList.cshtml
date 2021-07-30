@@ -1,0 +1,39 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.FlashCardVM>
+
+<div class="bd bd-white-1 rounded table-responsive mg-t-20">
+    <table class="table table-bordered mg-b-0">
+        <thead class="thead-colored thead-primary">
+            <tr>
+                <th></th>
+                <th>Question</th>
+                <th>Domain</th>
+                <th>Type</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlashCardId)
+                        @*    @Html.ActionLink(item.IssueNo, "TicketDetail", new { IssueNo = item.IssueNo })*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlashCardQuery)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Domain)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Weight)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div><!-- bd-0 -->

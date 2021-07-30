@@ -1,0 +1,56 @@
+﻿@model OnlineExamCenter.ModelsVM.QuestionWeightVM
+
+@{
+    ViewBag.Title = "QuestionWeightDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Question Weight Detail</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("QuestionWeightIndex", "QuestionBank")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+                <input type="hidden" id="txtQuestionWeightId" value="@Model.Id" />
+            </div>
+        </div>
+        <div class="row  mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Question Weight</h6>
+                <input class="form-control form-control-dark" id="txtQuestionWeight" value="@Model.Weight" onKeyPress="return checkLength(this,20)" name="QuestionWeight" placeholder="Question Weight" type="text">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Status</h6>
+                @Html.DropDownList("ddlStatus", new SelectList(ViewBag.StatusList, "StatusId", "StatusName",Model.StatusId), "---Select Status-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row  mg-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-info" onclick="UpdateQuestionWeight();" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function UpdateQuestionWeight() {
+        var weight = $('#txtQuestionWeight').val();
+        var statusId = $('#ddlStatus').val();
+        var weightid = $('#txtQuestionWeightId').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateQuestionWeight", "QuestionBank")",
+            data: { weightId: weightid, Weight: weight, statusId: statusId },
+        success: function (result) {
+            if (result.IsSuccess)
+                toastr.success(result.Message);
+            else
+                toastr.error(result.Message);
+        },
+        error: function (result, textStatus, jqXHR) {
+
+        }
+    });
+    }
+</script>

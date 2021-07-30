@@ -1,0 +1,145 @@
+﻿@model OnlineExamCenter.ModelsVM.SecurityUserVM
+@{
+    ViewBag.Title = "SecurityUserDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="br-pagebody">
+    <h6 class="br-section-label">Security User Detail</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("SecurityUserIndex", "UserSecurity")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+                <input type="hidden" id="txtUserId" value="@Model.UserId" />
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">User Name</h6>
+                <input class="form-control form-control" id="txtUserName" value="@Model.Name" name="NewUserName" autocomplete="off" placeholder="UserName" type="text">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Role</h6>
+                @Html.DropDownList("ddlRole", new SelectList(ViewBag.RoleList, "RoleId", "RoleName", @Model.RoleId), "---Select Role-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Country</h6>
+                @Html.DropDownList("ddlCountry", new SelectList(ViewBag.CountryList, "Id", "Name", @Model.CountryId), "---Select Country-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Email</h6>
+                <input class="form-control form-control" id="txtEmail" value="@Model.Email" name="Email" placeholder="Email" type="text">
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Phone Number</h6>
+                <input class="form-control form-control-dark" id="txtPhoneNumber" value="@Model.PhoneNo" name="PhoneNumber" placeholder="PhoneNumber" type="text">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Login Id</h6>
+                <input class="form-control form-control-dark" id="txtLoginId" value="@Model.LoginId" name="LoginId" placeholder="Login Id" type="text">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Unit Price </h6>
+                <input type="text" id="txtUnitPrice" title="Unit Price" value="@Model.UnitPrice" class="form-control form-control-dark" placeholder="Unit Price">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Currency </h6>
+                @Html.DropDownList("ddCurrency", new SelectList(ViewBag.Currency, "CurrencyId", "CurrencyCode", Model.CCY), "---Select Currency-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <!--<div class="col-lg mg-t-10 mg-lg-t-0">
+        <h6 class="br-section-label">Password</h6>
+        <input class="form-control form-control-dark" id="txtPassword" autocomplete="off" value="@Model.Password" readonly="readonly" name="NewPassword" placeholder="Password" type="Password">
+    </div>-->
+            <!-- col -->
+            <!--<div class="col-lg mg-t-10 mg-lg-t-0">
+        <h6 class="br-section-label">Confirm Password</h6>
+        <input class="form-control form-control-dark" id="txtConfirmPassword" autocomplete="off" value="@Model.Password" readonly="readonly" name="ConfirmPassword" placeholder="Confirm Password" type="Password">
+    </div>-->
+            <!-- col -->
+        </div><!-- row -->
+        <div class="row pd-t-20">
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Status</h6>
+                @Html.DropDownList("ddlStatus", new SelectList(ViewBag.StatusList, "StatusId", "StatusName", Model.StatusId), "---Select Status-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Question Unit </h6>
+                <input type="text" id="txtQuestionUnit" title="Question Unit" value="@Model.Unit" class="form-control form-control-dark" placeholder="Question Unit">
+            </div><!-- col -->
+            <div class="col-lg">
+                <h6 class="br-section-label">Expiry  Date </h6>
+                <input type="text" id="txtExpiryDate" title="Expiry  Date" value="@Model.ExpiryDate" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+            </div><!-- col -->
+            <div class="col-lg" style="visibility:hidden">
+                <h6 class="br-section-label">User Type </h6>
+                @Html.DropDownList("ddUserType", new SelectList(ViewBag.UserType, "TypeId", "TypeName", @Model.UserTypeId), "---User Type-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+
+        </div>
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-info" onclick="UpdateSecurityUser();" />
+            </div>
+        </div>
+
+        </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+    <script type="text/javascript">
+            $(function () {
+                $('.fc-datepicker').datepicker({
+                    showOtherMonths: true,
+                    selectOtherMonths: true
+                });
+            });
+    function UpdateSecurityUser()
+    {
+        var name = $("#txtUserName").val();
+        var phoneNo = $("#txtPhoneNumber").val();
+        var email = $("#txtEmail").val();
+        var loginId = $("#txtLoginId").val();
+        var pass = '';// $("#txtPassword").val();
+        //var confPass = $("#txtConfirmPassword").val();
+        //if (pass != confPass)
+        //{
+        //    toastr.warning("Confirm Password Did not Matched");
+        //    return;
+        //}
+        var countryid = $("#ddlCountry").val();
+        var questionUnit = $('#txtQuestionUnit').val();
+        var unitPrice = $('#txtUnitPrice').val();
+        var currency = $('#ddCurrency').val();
+        if (currency<1) {
+            toastr.warning("Select a Currency");
+            return;
+        }
+        var roleid = $("#ddlRole").val();
+        var statusId = $('#ddlStatus').val();
+        var userid = $('#txtUserId').val();
+        var expiryDate = $("#txtExpiryDate").val();
+        var userType = $("#ddUserType").val();
+        if (userType < 1) {
+            toastr.warning("Select a User Type");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateSecurityUser", "UserSecurity")",
+            data: { userId: userid, Name: name, phoneNo: phoneNo, email: email, countryId: countryid, roleId: roleid, loginId: loginId, pass: pass, statusId: statusId, expiryDate: expiryDate, questionUnit: questionUnit, unitPrice: unitPrice, currency: currency, userType: userType },
+        success: function (result) {
+            if (result.IsSuccess)
+                toastr.success(result.Message);
+            else
+                toastr.error(result.Message);
+        },
+        error: function (result, textStatus, jqXHR) {
+
+        }
+    });
+    }
+    </script>
+}

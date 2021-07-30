@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "AccountLedger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Account Ledger</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <select class="form-control form-control-dark " id="ddlAccountType" onchange="LoadAccountList()" name="ddlAccountType">
+                    <option value="">---Account--- </option>
+                    <option value="1">GL</option>
+                    <option value="2">User</option>
+                    <option value="3">Cutomer</option>
+                </select>
+            </div><!-- col-4 -->
+
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                @Html.DropDownList("ddlAccountList", new SelectList(ViewBag.AccountList, "Value", "Name"), "---Account--- ", new { @class = "form-control form-control-dark" })
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="text" id="txtFromDate" title="From  Date" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="text" id="txtToDate" title="To  Date" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="submit" value="Search" class="btn btn-info" onclick="Search();" />
+            </div><!-- col-4 -->
+        </div><!-- row -->
+        <div id="accLedgerDiv" style="padding-top:10px;">
+
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+<script type="text/javascript">
+    $(function () {
+
+        $('.fc-datepicker').datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            defaultDate: +7
+        });
+        var date = new Date();
+        date.setDate(date.getDate());
+        $('#txtFromDate').datepicker('setDate', date);
+        $('#txtToDate').datepicker('setDate', date);
+
+
+
+    });
+        function LoadAccountList() {
+            var id = $('#ddlAccountType').val();
+             $.ajax({
+                url: "@Url.Action("GetAccountListJson", "AccountReport")",
+                 data: { typeid: id},
+                 type: "post",
+                 success: function (data) {
+                     var acclist = $('#ddlAccountList');
+                     acclist.empty(); // remove any existing options
+                     $.each(data, function (index, item) {
+                         acclist.append($("<option />").val(item.Value).text(item.Name));
+                    });
+                }
+            });
+
+        }
+   function Search()
+    {
+        var accountno='0';
+            if ($("#ddlAccountList").val() != '')
+                accountno = $("#ddlAccountList").val()
+
+       var fromdate = $("#txtFromDate").val();
+
+       var todate = $("#txtToDate").val();
+
+       if (accountno == '0') {
+           toastr.error("Please Select an Account");
+           return;
+       }
+
+            $.ajax({
+                url: "@Url.Action("GetAccountLedger", "AccountReport")",
+                data: { accountno: accountno, fromdate: fromdate, todate: todate},
+                type: "post",
+                success: function (result) {
+                    $("#accLedgerDiv").html(result);
+                }
+            });
+    }
+</script>
+ }

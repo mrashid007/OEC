@@ -1,0 +1,77 @@
+﻿<a href="@Url.Action("IndexQuestionManagement", "QuestionBank")" class="br-menu-link @Session["QuestionManagement"].ToString()">
+    <i class="fa fa-tasks"></i>
+    <span class="menu-item-label">Question  Management</span>
+    <i class="fa fa-chevron-down"></i>
+</a><!-- br-menu-link -->
+<ul class="br-menu-sub">
+    <li class="sub-item"><a href="@Url.Action("QuestionWeightIndex", "QuestionBank")" class="sub-link @Session["QuestionWeightSetup"].ToString()">Question Dificulties</a></li>
+    <li class="sub-item"><a href="@Url.Action("QuestionDomainIndex", "QuestionBank")" class="sub-link @Session["QuestionDomainSetup"].ToString()">Question Domain</a></li>
+    <li class="sub-item"><a href="@Url.Action("QuestionTypeIndex", "QuestionBank")" class="sub-link @Session["QuestionTypeSetup"].ToString()">Question Module</a></li>
+    <li class="sub-item"><a href="@Url.Action("QuestionDashboard", "QuestionBank")" class="sub-link @Session["NewQuestion"].ToString()">Question Monitor</a></li>
+</ul>
+@*<a href="@Url.Action("FlashCardBoard", "FlashCard")" class="br-menu-link @Session["FlashCard"].ToString()">
+        <i class="fa fa-money-bill"></i>
+        <span class="menu-item-label">Flash Card</span>
+    </a>*@
+<!--<a href="@Url.Action("NewKeyGeneration", "KeyGeneration")" class="br-menu-link @Session["KeyGeneration"].ToString()">
+    <i class="fa fa-money-bill"></i>
+    <span class="menu-item-label">Key Generation</span>
+</a>-->
+<!-- br-menu-link -->
+
+<a href="@Url.Action("ActivationKeyDashboard", "KeyGeneration")" class="br-menu-link @Session["KeyGeneration"].ToString()">
+    <i class="fa fa-money-bill"></i>
+    <span class="menu-item-label">ActivationKey Panel</span>
+</a><!-- br-menu-link -->
+
+<a href="@Url.Action("Index", "LicensePackage")" class="br-menu-link @Session["LicensePackage"].ToString()">
+    <i class="fa fa-money-bill"></i>
+    <span class="menu-item-label">License Package</span>
+</a><!-- br-menu-link -->
+
+<a href="#" class="br-menu-link @Session["UserSecurity"].ToString()">
+    <i class="fa fa-shield-alt"></i>
+    <span class="menu-item-label">User Management</span>
+    <i class="fa fa-chevron-down"></i>
+</a><!-- br-menu-link -->
+<ul class="br-menu-sub">
+    <li class="sub-item"><a href="@Url.Action("UserSecurityQuestionIndex", "UserSecurity")" class="sub-link @Session["UserSecurityQuestion"].ToString()">User Security Question</a></li>
+    <li class="sub-item"><a href="@Url.Action("SecurityUserPasswordPolicy", "UserSecurity")" class="sub-link @Session["SecurityUserPasswordPolicy"].ToString()">Password Policy</a></li>
+    <li class="sub-item"><a href="@Url.Action("SecurityUserIndex", "UserSecurity")" class="sub-link @Session["NewSecurityUser"].ToString()">Web User</a></li>
+    <li class="sub-item"><a href="@Url.Action("AppSecurityUserIndex", "UserSecurity")" class="sub-link @Session["AppSecurityUser"].ToString()">App User</a></li>
+    <li class="sub-item"><a href="@Url.Action("SecurityUserVerification", "UserSecurity")" class="sub-link @Session["SecurityUserVerification"].ToString()">User Info Verification</a></li>
+    @*<li class="sub-item"><a href="@Url.Action("SecurityUserPhoneVerification", "UserSecurity")" class="sub-link @Session["NewSecurityUser"].ToString()">Email Verify</a></li>*@
+</ul>
+<a href="@Url.Action("QuestionApprovalPanel", "QuestionApproval")" class="br-menu-link @Session["QuestionApproval"].ToString()">
+    <i class="fa fa-money-bill"></i>
+    <span class="menu-item-label">Question Approval</span>
+</a><!-- br-menu-link -->
+<a href="#" class="br-menu-link @Session["UserBill"].ToString()">
+    <i class="fa fa-money-bill"></i>
+    <span class="menu-item-label">User Bill</span>
+    <i class="fa fa-chevron-down"></i>
+</a>
+<ul class="br-menu-sub">
+    <li class="sub-item"><a href="@Url.Action("UserBill", "UserBill")" class="sub-link @Session["UserBill"].ToString()">User Balance</a></li>
+    <li class="sub-item"><a href="@Url.Action("UserBillWithdrow", "UserBill")" class="sub-link @Session["UserBillWithdrow"].ToString()">User Bill Withdrow</a></li>
+</ul>
+<a href="#" class="br-menu-link @Session["Report"].ToString()">
+    <i class="fa fa-chart-pie"></i>
+    <span class="menu-item-label">Report</span>
+    <i class="fa fa-chevron-down"></i>
+</a><!-- br-menu-link -->
+<ul class="br-menu-sub">
+    @*<li class="sub-item"><a href="@Url.Action("AccountSetting", "AccountReport")" class="sub-link @Session["AccountSetting"].ToString()">Account List</a></li>*@
+    <li class="sub-item"><a href="@Url.Action("AccountLedger", "AccountReport")" class="sub-link @Session["AccountLedger"].ToString()">Account Ledger</a></li>
+</ul>
+
+@{ 
+    if (Session["RoleCode"].ToString() == "ADM")
+    {
+        <a href="@Url.Action("AccountLedgerProcess", "AccountReport")" class="br-menu-link @Session["AccountingProcess"].ToString()">
+            <i class="fa fa-money-bill"></i>
+            <span class="menu-item-label">Accounting Process</span>
+        </a>
+
+        }
+    }

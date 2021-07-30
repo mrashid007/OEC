@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "License Package";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">License Packages</h6>
+
+    <div class="br-section-wrapper">
+
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("CreatePackage", "LicensePackage")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>New</a>
+            </div>
+        </div>
+
+        <div id="licensePackageListDiv">
+            @{
+                Html.RenderAction("_LicensePackageList", "LicensePackage");
+            }
+        </div>
+
+    </div>
+</div>

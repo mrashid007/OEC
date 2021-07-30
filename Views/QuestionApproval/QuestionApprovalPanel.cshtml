@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "QuestionApprovalPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Question Approval</h6>
+    <div class="br-section-wrapper">
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                @Html.DropDownList("ddlQuestionType", new SelectList(ViewBag.QuestionTypeList, "Id", "TypeName"), "---Select Type --- ", new { @class = "form-control form-control-dark" })
+                @*<input class="form-control form-control-dark" id="txtSearch" name="Subject" placeholder="ইস্যু নং / শিরোনাম" type="text">*@
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                @Html.DropDownList("ddlDomain", new SelectList(ViewBag.DomainList, "Id", "Domain"), "---Select Domain--- ", new { @class = "form-control form-control-dark" })
+                @*@Html.DropDownList("ddlLocation", new SelectList(ViewBag.LocationList, "LocationId", "LocationName", ViewBag.LocationId), "---জেলা অফিস-- - ", new { @class = "form-control form-control-dark" })*@
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                @Html.DropDownList("ddlQuestionWeight", new SelectList(ViewBag.QuestionWeightList, "Id", "Weight"), "---Select Weight-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                @Html.DropDownList("ddlStatus", new SelectList(ViewBag.StatusList, "StatusId", "StatusName"), "---Select Status-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="submit" value="Search" class="btn btn-info" onclick="Search();" />
+            </div><!-- col-4 -->
+        </div><!-- row -->
+
+        <div id="questionListDiv">
+            @{
+
+                Html.RenderAction("_QuestionList", "QuestionApproval");
+            }
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-2 mg-t-10 mg-10">
+                <input type="checkbox" id="checkAll" title="Select All" value="0"/>
+                <span>Select All</span>
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="submit" value="Approve" class="btn btn-info" onclick="Approve();" />
+            </div><!-- col-4 -->
+
+        </div>
+       </div>
+</div>
+
+<script>
+
+    $("#checkAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+
+function Search()
+    {
+        var typeid='0';
+        if ($("#ddlQuestionType").val() != '')
+            typeid = $("#ddlQuestionType").val()
+
+        var domainid = '0';
+        if ($("#ddlDomain").val() != '')
+            typeid = $("#ddlDomain").val();
+
+        var weightid = '0';
+        if ($("#ddlQuestionWeight").val() != '')
+            weightid = $("#ddlQuestionWeight").val();
+
+        var statusId = '0';
+        if ($("#ddlStatus").val() != '')
+            statusId = $("#ddlStatus").val();
+
+            $.ajax({
+                url: "@Url.Action("QuestionListSearch", "QuestionApproval")",
+                data: { typeid: typeid, domainid: domainid, weightid: weightid, statusid: statusId },
+                type: "post",
+                success: function (result) {
+                    $("#questionListDiv").html(result);
+                }
+            });
+    }
+    function Approve() {
+        var valueArray = [];
+        $.each($('input[type="checkbox"]:checked'), function (key, value) {
+            valueArray.push($(value).attr("value"));
+        });
+        
+        $.ajax({
+            url: "@Url.Action("ApproveQuestion", "QuestionApproval")",
+            data: { values: valueArray.toString() },
+            cache: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "GET",
+            success: function (result) {
+                if(result.IsSuccess)
+                {
+                    toastr.success("Success");
+                    var delayInMilliseconds = 2000; //2 second
+                    setTimeout(function () {
+                        window.location.href = '@Url.Action("QuestionApprovalPanel", "QuestionApproval")';
+                    }, delayInMilliseconds);
+                }
+                else {
+                    toastr.error("Error");
+                }
+            }
+        });
+    }
+</script>

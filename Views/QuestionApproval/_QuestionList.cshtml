@@ -1,0 +1,75 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.Question>
+
+    <div class="bd bd-white-1 rounded table-responsive mg-t-20">
+        <table class="table table-bordered mg-b-0">
+            <thead class="thead-colored thead-primary">
+                <tr>
+                    <th></th>
+                    <th>Question</th>
+                    <th>Type</th>
+                    <th>Domain</th>
+                    <th>Weight</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.QuestionId)
+                        </td>*@
+                        <td>
+                            <input type="checkbox" value="@item.QuestionId" title="Select" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QuestionStr)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DomainName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WeightName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <div style="float:left; padding-top:10px;">
+                Showing @ViewBag.CurrentPage of @ViewBag.TotalPages
+            </div>
+            <div style="float:right">
+                <ul class="pagination">
+                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a onclick="ShowPage(@i-1)" class="page-link" title="Edit">
+                                @i
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+    </div><!-- bd-0 -->
+    <script type="text/javascript">
+        function ShowPage(currentPage) {
+                    $.ajax({
+                url: "@Url.Action("_QuestionList", "QuestionApproval")",
+                        data: { currentPage: currentPage},
+                type: "post",
+                success: function (result) {
+                    $("#questionListDiv").html(result);
+                }
+            });
+    }
+    </script>

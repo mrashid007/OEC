@@ -1,0 +1,300 @@
+﻿@model OnlineExamCenter.ModelsVM.QuestionVM
+
+@{
+    ViewBag.Title = "QuestionDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="br-pagebody">
+    <h6 class="br-section-label">New Question</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("QuestionDashboard", "QuestionBank")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+                <input type="hidden" id="txtQuestionId" value="@Model.QuestionId" />
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Question Type</h6>
+                @Html.DropDownList("ddlQuestionType", new SelectList(ViewBag.QuestionTypeList, "Id", "TypeName", Model.TypeId), "---Select Type --- ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Question Domain</h6>
+                @Html.DropDownList("ddlDomain", new SelectList(ViewBag.DomainList, "Id", "Domain", Model.DomainId), "---Select Domain--- ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Question Weight</h6>
+                @Html.DropDownList("ddlQuestionWeight", new SelectList(ViewBag.QuestionWeightList, "Id", "Weight", Model.WeightId), "---Select Weight-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Question</h6>
+                <textarea class="form-control form-control-dark" rows="3" id="txtQuestion" name="Question" placeholder="Question" type="text">@Model.QuestionStr</textarea>
+            </div><!-- col -->`
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Expiry  Date </h6>
+                <input type="text" id="txtExpiryDate" title="Expiry  Date" value="@Model.ExpiryDate" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                @*<h6 class="br-section-label">Explanation</h6>
+                <textarea class="form-control form-control" id="txtExplanation" name="Explanation" placeholder="Question Explanation" type="text"></textarea>*@
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Option 1</h6>
+                <input class="form-control form-control-dark" id="txtOption1" value="@Model.Option1" name="Option1" placeholder="Option Text" type="text">
+                <label class="rdiobox">
+                    @{ 
+                        if (Model.AnswerPosition == 1)
+                        { 
+                            <input name="rdio" id="rdbOption1" checked="checked" type="radio">
+                        }
+                        else
+                        { 
+                            <input name="rdio" id="rdbOption1" type="radio">
+                        }
+                    }
+                    <span>Right Answer</span>
+                </label>
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Option 2</h6>
+                <input class="form-control form-control-dark" id="txtOption2" value="@Model.Option2" name="Option2" placeholder="Option Text" type="text">
+                <label class="rdiobox">
+                    @{
+                        if (Model.AnswerPosition == 2)
+                        {
+                            <input name="rdio" id="rdbOption2" checked="checked" type="radio">
+                        }
+                        else
+                        {
+                            <input name="rdio" id="rdbOption2" type="radio">
+                        }
+                    }
+                    <span>Right Answer</span>
+                </label>
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Option 3</h6>
+                <input class="form-control form-control-dark" id="txtOption3" value="@Model.Option3" name="Option3" placeholder="Option Text" type="text">
+                <label class="rdiobox">
+                   @{
+                       if (Model.AnswerPosition == 3)
+                       {
+                        <input name="rdio" id="rdbOption3" checked="checked" type="radio">
+                       }
+                       else
+                       {
+                        <input name="rdio" id="rdbOption3" type="radio">
+                       }
+                }
+                    <span>Right Answer</span>
+                </label>
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Option 4</h6>
+                <input class="form-control form-control-dark" id="txtOption4" value="@Model.Option4" name="Option4" placeholder="Option Text" type="text">
+                <label class="rdiobox">
+                    @{
+                        if (Model.AnswerPosition == 4)
+                        {
+                            <input name="rdio" id="rdbOption4" checked="checked" type="radio">
+                        }
+                        else
+                        {
+                            <input name="rdio" id="rdbOption4" type="radio">
+                        }
+                    }
+                   
+                    <span>Right Answer</span>
+                </label>
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-4">
+                <h6 class="br-section-label">Option 5</h6>
+                <label class="ckbox">
+                    @{
+                        if (Model.Option5 != "")
+                        {
+                            <input name="ckbBox" id="chkOption5" checked="checked" type="checkbox">
+                        }
+                        else
+                        {
+                            <input name="ckbBox" id="chkOption5" type="checkbox">
+                        }
+                    }
+
+                    <span> Add Option as <i style="color:forestgreen">None of Them</i></span>
+                </label>
+                <label class="rdiobox">
+                    @{
+                        if (Model.AnswerPosition == 5)
+                        {
+                            <input name="rdio" id="rdbOption5" checked="checked" type="radio">
+                        }
+                        else
+                        {
+                            <input name="rdio" id="rdbOption5" type="radio">
+                        }
+                    }
+                    <span>Right Answer</span>
+                </label>
+            </div><!-- col -->
+            <div class="col-4">
+                <h6 class="br-section-label">Option 6</h6>
+                <label class="ckbox">
+                    @{
+                        if (Model.Option5 != "")
+                        {
+                            <input name="ckbBox" id="chkOption6" checked="checked" type="checkbox">
+                        }
+                        else
+                        {
+                            <input name="ckbBox" id="chkOption6" type="checkbox">
+                        }
+                    }
+                    <span> Add Option as <i style="color:forestgreen"> All of Them</i></span>
+                </label>
+                <label class="rdiobox">
+                    @{
+                        if (Model.AnswerPosition == 6)
+                        {
+                            <input name="rdio" id="rdbOption6" checked="checked" type="radio">
+                        }
+                        else
+                        {
+                            <input name="rdio" id="rdbOption6" type="radio">
+                        }
+                    }
+                    <span>Right Answer</span>
+                </label>
+            </div><!-- col -->
+            <div class="col-4" style="visibility:hidden">
+                <label class="ckbox">
+                    @{
+                        if (Model.IsForPractise == 1)
+                        {
+                            <input name="ckbBox" id="chkPractise" checked="checked" type="checkbox">
+                        }
+                        else
+                        {
+                            <input name="ckbBox" id="chkPractise" type="checkbox">
+                        }
+                    }
+                    <span><i style="color:red;font-weight:bold;"> This Question Only For Practise Test</i></span>
+                </label>
+            </div><!-- col -->
+            <div class="col-4">
+                <h6 class="br-section-label">Status</h6>
+                @Html.DropDownList("ddlStatus", new SelectList(ViewBag.StatusList, "StatusId", "StatusName", Model.StatusId), "---Select Status-- - ", new { @class = "form-control form-control-dark" })
+            </div>
+            <div class="col-4">
+                <h6 class="br-section-label">Explanation</h6>
+                <textarea class="form-control form-control" id="txtQuestionExplanation" name="QuestionExplanation" placeholder="Question Explanation" type="text">@Model.Explanation</textarea>
+            </div><!-- col -->
+            <div class="col-4">
+                <h6 class="br-section-label">Reference</h6>
+                <textarea class="form-control form-control" id="txtQuestionReference" name="QuestionReference" placeholder="Question Reference" type="text">@Model.Reference</textarea>
+            </div><!-- col -->
+        </div><!-- row -->
+
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-info" onclick="UpdateNewQuestion();" />
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+    <script>
+        $(function () {
+            $('.fc-datepicker').datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+        });
+
+        function UpdateNewQuestion() {
+            var questionId = $('#txtQuestionId').val();
+            var questiontypeid = $('#ddlQuestionType').val();
+            var domainid = $('#ddlDomain').val();
+            var questionweightid = $('#ddlQuestionWeight').val();
+            var question = $('#txtQuestion').val();
+            var expirydate = $('#txtExpiryDate').val();
+            var explanation = $('#txtQuestionExplanation').val();
+            var option1 = $('#txtOption1').val();
+            var option2 = $('#txtOption2').val();
+            var option3 = $('#txtOption3').val();
+            var option4 = $('#txtOption4').val();
+            var chkOption5 = 0;
+            if ($('#chkOption5').prop("checked") == true)
+                chkOption5 = 1;
+
+            var chkOption6 = 0;
+            if ($('#chkOption6').prop("checked") == true)
+                chkOption6 = 1;
+
+            var rdbOption1 = 0;
+            if ($("#rdbOption1").prop("checked"))
+                rdbOption1 = 1;
+
+            var rdbOption2 = 0;
+            if ($("#rdbOption2").prop("checked"))
+                rdbOption2 = 1;
+
+            var rdbOption3 = 0;
+            if ($("#rdbOption3").prop("checked"))
+                rdbOption3 = 1;
+
+            var rdbOption4 = 0;
+            if ($("#rdbOption4").prop("checked"))
+                rdbOption4 = 1;
+
+            var rdbOption5 = 0;
+            if ($("#rdbOption5").prop("checked"))
+                rdbOption5 = 1;
+
+            var rdbOption6 = 0;
+            if ($("#rdbOption6").prop("checked"))
+                rdbOption6 = 1;
+
+            var practise = 0;
+            if ($("#chkPractise").prop("checked"))
+                practise = 1;
+
+            var questionReference = $('#txtQuestionReference').val();
+            var statusId = $('#ddlStatus').val();
+            
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateNewQuestion", "QuestionBank")",
+                data: {
+                    questionId: questionId, questiontypeid: questiontypeid, domainid: domainid, questionweightid: questionweightid, question: question,
+                    expirydate: expirydate, explanation: explanation, option1: option1, option2: option2, option3: option3,
+                    option4: option4, rdbOption1: rdbOption1, rdbOption2: rdbOption2, rdbOption3: rdbOption3, rdbOption4: rdbOption4,
+                    rdbOption5: rdbOption5, rdbOption6: rdbOption6, chkOption5: chkOption5, chkOption6: chkOption6, practise: practise,
+                    questionReference: questionReference, statusId: statusId
+                },
+            success: function (result) {
+                if (result.IsSuccess)
+                    toastr.success(result.Message);
+                else
+                    toastr.error(result.Message);
+            },
+            error: function (result, textStatus, jqXHR) {
+
+            }
+        });
+        }
+
+
+    </script>
+}
+
+

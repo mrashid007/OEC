@@ -1,0 +1,41 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.ActivationKey>
+<div class="bd bd-white-1 rounded table-responsive mg-t-20">
+    <table class="table table-bordered mg-b-0">
+        <thead class="thead-colored thead-primary">
+            <tr>
+                <th>
+                    Activation Key
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValidDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsedBy)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KeyStr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ValidDays)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsedBy)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

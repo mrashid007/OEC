@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "FlashCard Board";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2></h2>
+<div class="br-pagebody">
+    <h6 class="br-section-label">FlashCard Board</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("NewFlashCard", "FlashCard")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>New</a>
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <select class="form-control" id="StudentGender" name="StudentGender">
+                    <option>Select Type</option>
+                </select>
+                @*<input class="form-control form-control-dark" id="txtSearch" name="Subject" placeholder="ইস্যু নং / শিরোনাম" type="text">*@
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <select class="form-control" id="StudentGender" name="StudentGender">
+                    <option>Select Domain</option>
+                </select>
+                @*@Html.DropDownList("ddlLocation", new SelectList(ViewBag.LocationList, "LocationId", "LocationName", ViewBag.LocationId), "---জেলা অফিস-- - ", new { @class = "form-control form-control-dark" })*@
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <select class="form-control" id="StudentGender" name="StudentGender">
+                    <option>Select Weight</option>
+                </select>
+                @*@if (ViewBag.OfficeId != 0)
+                    {
+                        @Html.DropDownList("ddlCustomerOffice", new SelectList(ViewBag.OfficeList, "OfficeId", "OfficeName", ViewBag.OfficeId), "---অফিস নির্বাচন ---", new { @class = "form-control form-control-dark", @disabled = "disabled" });
+                    }
+                    else
+                    {
+                        @Html.DropDownList("ddlCustomerOffice", new SelectList(ViewBag.OfficeList, "OfficeId", "OfficeName", ViewBag.OfficeId), "---অফিস নির্বাচন ---", new { @class = "form-control form-control-dark" });
+                    }*@
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                @*@Html.DropDownList("ddlStatusList", new SelectList(ViewBag.StatusList, "StatusId", "StatusName"), "---টিকিটের স্থিতি-- - ", new { @class = "form-control form-control-dark" })*@
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="submit" value="Search" class="btn btn-info" onclick="Search();" />
+            </div><!-- col-4 -->
+        </div><!-- row -->
+        <div id="questionListDiv">
+            @{
+
+                Html.RenderAction("_FlashCardList", "FlashCard");
+            }
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function Search()
+    {
+        var searchStr = $("#txtSearch").val();
+        var officeId = $("#ddlCustomerOffice").val();
+        var statusId = $("#ddlStatusList").val();
+            $.ajax({
+                url: "@Url.Action("CustomerIssueListSearch", "Home")",
+                data: { searchStr: searchStr, officeId: officeId, statusId: statusId },
+                type: "get",
+                success: function (result) {
+                    $("#questionListDiv").html(result);
+                }
+            });
+    }
+</script>

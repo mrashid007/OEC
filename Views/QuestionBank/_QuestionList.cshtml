@@ -1,0 +1,102 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.Question>
+
+    <div class="bd bd-white-1 rounded table-responsive mg-t-20">
+        <table class="table table-bordered mg-b-0">
+            <thead class="thead-colored thead-primary">
+                <tr>
+                    <th>SL.</th>
+                    <th>Question</th>
+                    <th>Module</th>
+                    <th>Domain</th>
+                    <th>Weight</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{ int count =1+ ViewBag.CountStart;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @count
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.QuestionStr)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.TypeName)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.DomainName)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.WeightName)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.DisplayFor(modelItem => item.StatusName)
+                            </td>
+                            <td style="text-align:center">
+                                <a href='@Url.Action("QuestionDetail", "QuestionBank", new { QuestionId = item.QuestionId })' title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                            <td style="text-align:center">
+                                <a href='@Url.Action("QuestionDetailView", "QuestionBank", new { QuestionId = item.QuestionId })' title="View">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+
+                }
+            </tbody>
+        </table>
+        <div>
+            <div style="float:left; padding-top:10px;">
+                Showing @ViewBag.CurrentPage page of @ViewBag.TotalPages pages
+            </div>
+            <div style="float:right">
+                <ul class="pagination">
+                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a onclick="ShowPage(@i-1)" class="page-link" title="Edit">
+                                @i
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+        </div><!-- bd-0 -->
+<script type="text/javascript">
+    function showDetail(QuestionId)
+    {
+        $.ajax({
+            url: "@Url.Action("_ShowQuestionDetail", "QuestionBank")",
+            data: { QuestionId: QuestionId},
+            type: "post",
+            success: function (result) {
+                $("#questionDetail").html(result);
+                $('#questionModal').modal('show');
+            }
+        });
+    }
+
+    function ShowPage(currentPage)
+    {
+        $.ajax({
+            url: "@Url.Action("_QuestionList", "QuestionBank")",
+                    data: { currentPage: currentPage},
+            type: "post",
+            success: function (result) {
+                $("#questionListDiv").html(result);
+            }
+        });
+    }
+</script>

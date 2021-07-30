@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "UserBillWithdrow";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">User Bill</h6>
+    <div class="br-section-wrapper">
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Total Balance:</h6>
+                <label style="font-size:15pt;" id="lblBalance"> @ViewBag.TotalEarn </label>
+                <h6 class="br-section-label">Total Withdraw:</h6>
+                <label style="font-size:15pt;" id="lblBalance"> @ViewBag.TotalWithdraw </label>
+                <h6 class="br-section-label">Current Balance:</h6>
+                <label style="font-size:15pt;" id="lblBalance"> @ViewBag.Balance </label>
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+
+                <h6 class="br-section-label">Withdrawal Amount</h6>
+                <input class="form-control form-control" id="txtAmount" autocomplete="off" placeholder="Withdrawal Amount" type="number" maxlength="10">
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">&nbsp;</h6>
+                <input type="submit" value="Withdraw" class="btn btn-info" onclick="WithdrawBalance();" />
+            </div><!-- col-4 -->
+
+        </div><!-- row -->
+
+    </div>
+</div>
+<script type="text/javascript">
+    function WithdrawBalance() {
+        var withdrawalAmount = $('#txtAmount').val();
+        var balance = $('#lblBalance').text();
+
+        if (parseFloat(withdrawalAmount) > parseFloat(balance)) {
+            toastr.warning("Limit Exceeded.");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("WithdrawBalance", "UserBill")",
+            data: { withdrawalAmount: withdrawalAmount },
+            success: function (result) {
+                if (result.IsSuccess)
+                    toastr.success(result.Message);
+                else
+                    toastr.error(result.Message);
+            },
+            error: function (result, textStatus, jqXHR) {
+
+            }
+        });
+    }
+</script>

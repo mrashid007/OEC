@@ -1,0 +1,145 @@
+﻿@model OnlineExamCenter.ModelsVM.QuestionVM
+@{
+    Layout = null;
+}
+<h6 class="br-section-label">Question Detail View</h6>
+<div class="br-section-wrapper">
+    <div class="row ">
+        <div class="col-lg">
+            <a href="@Url.Action("QuestionDashboard", "QuestionBank")" class="btn btn-sm btn-success"><i class="fa fa-arrow-left"></i>Back To List</a>
+        </div>
+        <br />
+    </div>
+    <div class="row pd-t-20">
+        <div class="col-lg">
+            <a href='@Url.Action("QuestionDetailViewPrev", "QuestionBank", new { QuestionNo = @Model.QuestionNo})' class="btn btn-sm btn-info"><i class="fa fa-backward"></i>Prev</a>
+            <a href='@Url.Action("QuestionDetailViewNext", "QuestionBank", new { QuestionNo = @Model.QuestionNo})' class="btn btn-sm btn-info"><i class="fa fa-forward"></i>Next</a>
+        </div>
+        <div class="col-lg">
+        </div>
+        <div class="col-lg">
+        </div>
+        <div class="col-lg">
+        </div>
+        <div class="col-lg">
+            <input class="form-control form-control" id="txtQuestionNo" value="@Model.QuestionNo" placeholder="Question No" type="text">
+        </div>
+        <div class="col-lg">
+            <input type="submit" value="Search" class="btn btn-info" onclick="SearchQuestionNo();" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg">
+            <h6 class="br-section-label">Question Number</h6>
+            <label class="form-label">@Model.QuestionNo</label>
+        </div>
+    </div>
+    <div class="row mg-t-20">
+        <div class="col-lg">
+            <h6 class="br-section-label">Question</h6>
+            <label class="form-label">@Model.QuestionStr</label>
+        </div><!-- col -->
+    </div><!-- row -->
+
+    @if (!String.IsNullOrEmpty(Model.QuestionNo))
+    {
+
+        string answeroption = "";
+        string optionChar = "";
+        int positionCount = 0;
+        if (Model.Option1 != "")
+        {
+            positionCount++;
+            optionChar = positionCount == 1 ? "A" : "B";
+            <div class="row pd-t-20">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="questionresult">
+                        <label class="form-check-label" for="exampleCheck1">@optionChar. @Model.Option1</label>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.Option2 != "")
+        {
+            positionCount++;
+            optionChar = positionCount == 1 ? "A" : "B";
+            <div class="row pd-t-20">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="questionresult">
+                        <label class="form-check-label" for="exampleCheck1">@optionChar. @Model.Option2</label>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.Option3 != "")
+        {
+            positionCount++;
+            optionChar = positionCount == 1 ? "A" : positionCount == 2 ? "B" : "C";
+            <div class="row pd-t-20">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="questionresult">
+                        <label class="form-check-label" for="exampleCheck1">@optionChar.@Model.Option3</label>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.Option4 != "")
+        {
+            positionCount++;
+            optionChar = positionCount == 1 ? "A" : positionCount == 2 ? "B" : positionCount == 3 ? "C" : "D";
+            <div class="row pd-t-20">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="questionresult">
+                        <label class="form-check-label" for="exampleCheck1">@optionChar.@Model.Option4</label>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.Option5 != "")
+        {
+            positionCount++;
+            optionChar = positionCount == 1 ? "A" : positionCount == 2 ? "B" : positionCount == 3 ? "C" : positionCount == 4 ? "D" : "E";
+            <div class="row pd-t-20">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="questionresult">
+                        <label class="form-check-label" for="exampleCheck1">@optionChar.@Model.Option5</label>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.Option6 != "")
+        {
+            positionCount++;
+            optionChar = positionCount == 1 ? "A" : positionCount == 2 ? "B" : positionCount == 3 ? "C" : positionCount == 4 ? "D" : positionCount == 5 ? "E" : "F";
+            <div class="row pd-t-20">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="questionresult">
+                        <label class="form-check-label" for="exampleCheck1">@optionChar.@Model.Option6</label>
+                    </div>
+                </div>
+            </div>
+        }
+        answeroption = Model.AnswerPosition == 1 ? "A" : Model.AnswerPosition == 2 ? "B" : Model.AnswerPosition == 3 ? "C" : Model.AnswerPosition == 4 ? "D" : Model.AnswerPosition == 5 ? "E" : "F";
+
+        <div class="row pd-t-80">
+            <div class="col-md-offset-2 col-md-10">
+                <h6 class="br-section-label"> <font color="Green" style="font-weight:bold;" size="3">Answer:</font><font color="Red" style="font-weight:bold;" size="3">&nbsp; @answeroption</font></h6>
+            </div>
+        </div>
+
+    }
+
+    <div class="row pd-t-80">
+        <div class="col-md-offset-2 col-md-10">
+            <h6 class="br-section-label">Explanation</h6>
+            <label class="form-label">@Model.Explanation</label>
+        </div>
+    </div>
+</div>
+

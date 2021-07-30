@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "NewFlashCard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">New FlashCard</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("FlashCardBoard", "FlashCard")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">FlashCard Type</h6>
+                <select class="form-control" id="QuestionType" name="QuestionType">
+                    <option>FlashCard Type</option>
+                </select>
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Domain</h6>
+                <select class="form-control" id="FlashCardDomain" name="FlashCardDomain">
+                    <option>Domain</option>
+                </select>
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Weight</h6>
+                <select class="form-control" id="FlashCardWeight" name="FlashCardWeight">
+                    <option>Weight</option>
+                </select>
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">FlashCard</h6>
+                <input class="form-control form-control-dark" id="txtFlashCard" name="FlashCard" placeholder="FlashCard Queston" type="text">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Expiry  Date </h6>
+                <input type="text" id="txtExpiryDate" title="Expiry  Date" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Explanation</h6>
+                <textarea class="form-control form-control" id="txtExplanation" name="Explanation" placeholder="Question Explanation" type="text"></textarea>
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">FlashCard Rating</h6>
+                <input class="form-control form-control-dark" id="txtRating" name="Rating" placeholder="Rating" type="number">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">FlashCard Marks</h6>
+                <input class="form-control form-control-dark" id="txtOption2" name="Marks" placeholder="Marks" type="number">
+            </div><!-- col -->
+            
+        </div><!-- row -->
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" onclick="SaveQuestionType();" />
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+    <script>
+        $(function () {
+            $('.fc-datepicker').datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+        });
+    </script>
+}

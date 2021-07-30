@@ -1,0 +1,52 @@
+﻿@model OnlineExamCenter.ModelsVM.SecurityQuestion
+
+@{
+    ViewBag.Title = "UserSecurityQuestionDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="br-pagebody">
+    <h6 class="br-section-label">Security Question</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("UserSecurityQuestionIndex", "UserSecurity")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+                <input type="hidden" id="txtSecurityQuestionId" value="@Model.QuestionId" /> 
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Security Question</h6>
+                <input class="form-control form-control" id="txtSecurityQuestion" value="@Model.Question" name="SecurityQuestion" placeholder="Security Question" type="text">
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Status</h6>
+                @Html.DropDownList("ddlStatus", new SelectList(ViewBag.StatusList, "StatusId", "StatusName", Model.StatusId), "---Select Status-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+        </div>
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-info" onclick="UpdateSecurityQuestion();" />
+            </div>
+        </div>
+</div>
+<script type="text/javascript">
+    function UpdateSecurityQuestion() {
+        var question = $('#txtSecurityQuestion').val();
+        var statusId = $('#ddlStatus').val();
+        var questiontid = $('#txtSecurityQuestionId').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateSecurityQuestion", "UserSecurity")",
+            data: { questiontid: questiontid, question: question, statusId: statusId },
+        success: function (result) {
+            if (result.IsSuccess)
+                toastr.success(result.Message);
+            else
+                toastr.error(result.Message);
+        },
+        error: function (result, textStatus, jqXHR) {
+
+        }
+    });
+    }
+</script>

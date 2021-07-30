@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/image/favicon.ico" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="d-flex align-items-center justify-content-center ht-100v">
+        <img src="~/image/loginback.jpg" class="wd-100p ht-100p object-fit-cover" alt="">
+        <div class="overlay-body  d-flex align-items-center justify-content-center">
+       @using (Html.BeginForm("UserLogin", "LogIn", FormMethod.Post))
+       {
+            <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 rounded bd bd-white-2 ">
+                <div class="signin-logo tx-center tx-28 tx-bold tx-white"><span class="tx-normal"></span> Online <span class="tx-info">Exam</span> System<span class="tx-normal"></span></div>
+                <div class="tx-white-5 tx-center mg-b-60">User Login </div>
+                <div class="form-group">
+                    <p style="color:red;font-weight:bolder;">@ViewBag.ExpMsg</p>
+                </div><!-- form-group -->
+                <div class="form-group">
+                    <input type="text" name="userName" class="form-control fc-outline-dark" placeholder="Enter your username">
+                </div><!-- form-group -->
+                <div class="form-group">
+                    <input type="password" name="userPassword" class="form-control fc-outline-dark" placeholder="Enter your password">
+                </div><!-- form-group -->
+                <div class="form-group">
+                    @*<input type="password" name="userPassword" class="form-control fc-outline-dark">*@
+                    <a href="@Url.Action("ForgotPassword", "LogIn")">Forgot Password ?</a>
+                </div><!-- form-group -->
+                <button type="submit" class="btn btn-info btn-block">Sign In</button>
+
+
+            </div><!-- login-wrapper -->
+       }
+            @*<input type="button" onclick="javascript:window.print()" value="Print Me" />*@
+        </div><!-- overlay-body -->
+    </div>
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/lib/js")
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "UserSecurityQuestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Security Question</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("UserSecurityQuestionIndex", "UserSecurity")" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i>Back</a>
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Security Question</h6>
+                <input class="form-control form-control" id="txtSecurityQuestion" name="SecurityQuestion" placeholder="Security Question" type="text">
+            </div><!-- col -->
+            <div class="col-lg">
+            </div><!-- col -->
+            <div class="col-lg">
+            </div><!-- col -->
+            </div><!-- row -->
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" onclick="SaveSecurityQuestion();" />
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function SaveSecurityQuestion()
+    {
+        var question = $("#txtSecurityQuestion").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveUserSecurityQuestion", "UserSecurity")",
+            data: { question: question },
+        success: function (result) {
+            if (result.IsSuccess)
+                toastr.success(result.Message);
+            else
+                toastr.error(result.Message);
+            },
+            error: function (result, textStatus, jqXHR) {
+
+            }
+        });
+    }
+</script>

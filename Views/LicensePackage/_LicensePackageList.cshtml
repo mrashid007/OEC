@@ -1,0 +1,44 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.LicensePackageVM>
+<div class="bd bd-white-1 rounded table-responsive mg-t-20">
+    <table class="table table-bordered mg-b-0">
+        <thead class="thead-colored thead-primary">
+            <tr>
+                <th>
+                    Package Name
+                </th>
+                <th>
+                    Valid Days
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PackageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DaysValidity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <a href='@Url.Action("LicensePackageEdit", "LicensePackage", new { PackageId = item.PackageId })' title="View">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">User Email Verification</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <p style="color:green;font-weight:bolder;">@ViewBag.EmailMsg</p>
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <p style="color:green;font-weight:bolder;">@ViewBag.EmailMsg</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Email Verify</h6>
+                <input type="submit" value="Verify" class="btn btn-info" onclick="VerifyEmail();" />
+            </div><!-- col -->
+        </div><!-- row -->
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#txtOTP').hide();
+    });
+
+            function VerifyEmail() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SecurityUserVerifyEmail", "UserSecurity")",
+                success: function (data) {
+                    toastr.success("Email Verification link sent to your Email");
+                },
+                error: function (result, textStatus, jqXHR) {
+
+                }
+        });
+    }
+
+</script>

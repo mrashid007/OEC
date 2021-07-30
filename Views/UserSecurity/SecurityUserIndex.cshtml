@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "SecurityUserIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Security User</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <a href="@Url.Action("NewSecurityUser", "UserSecurity")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>New</a>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="text" id="txtSearch" title="Search" class="form-control" placeholder="User Name">
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <input type="submit" value="Search" class="btn btn-info" onclick="Search();" />
+            </div><!-- col-4 -->
+        </div><!-- row -->
+        <div id="securityUserDiv">
+                @{
+                    Html.RenderAction("_SecurityUserList", "UserSecurity", new { usetType = "Web" });
+                }
+        </div>
+
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+    <script type="text/javascript">
+    function Search()
+    {
+        var searchstr = $('#txtSearch').val();
+
+            $.ajax({
+                url: "@Url.Action("SearchSecurityUser", "UserSecurity")",
+                data: { searchstr: searchstr},
+                type: "post",
+                success: function (result) {
+                    $("#securityUserDiv").html(result);
+                }
+            });
+    }
+    </script>
+}
+

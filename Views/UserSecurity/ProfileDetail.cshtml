@@ -1,0 +1,119 @@
+﻿@model OnlineExamCenter.ModelsVM.SecurityUserVM
+@{
+    ViewBag.Title = "ProfileDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">Security User Detail</h6>
+    <div class="br-section-wrapper pd-t-20">
+        <div class="row">
+            <div class="col-lg">
+                <img src="@Url.Content(Model.ImageUrl)" id="imgbox" alt="image" width="100" height="100" />
+                <input type="file" id="btnFile" />           
+            </div>
+        </div>
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">User Name</h6>
+                <input class="form-control form-control" id="txtUserName" value="@Model.Name" name="NewUserName" autocomplete="off" placeholder="UserName" type="text">
+            </div><!-- col -->
+
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Country</h6>
+                @Html.DropDownList("ddlCountry", new SelectList(ViewBag.CountryList, "Id", "Name", @Model.CountryId), "---Select Country-- - ", new { @class = "form-control form-control-dark" })
+            </div><!-- col -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">Email</h6>
+                <input class="form-control form-control" id="txtEmail" value="@Model.Email" name="Email" placeholder="Email" type="text">
+            </div><!-- col -->
+        </div><!-- row -->
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">Phone Number</h6>
+                <input class="form-control form-control-dark" id="txtPhoneNumber" value="@Model.PhoneNo" name="PhoneNumber" placeholder="PhoneNumber" type="text">
+            </div><!-- col -->
+            @*<div class="col-lg">
+                <h6 class="br-section-label">Login Id</h6>
+                <input class="form-control form-control-dark" id="txtLoginId" value="@Model.LoginId" name="LoginId" placeholder="Login Id" type="text">
+            </div> col*@ 
+        </div><!-- row -->
+       
+ 
+        <div class="row pd-t-20">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-info" onclick="UpdateSecurityUser();" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+    <script type="text/javascript">
+            $(function () {
+                $('.fc-datepicker').datepicker({
+                    showOtherMonths: true,
+                    selectOtherMonths: true
+                });
+
+                $("#btnFile").change(function () {
+                    readURL(this);
+                });
+            });
+
+            var profilePic;
+            function readURL(input) {
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#imgbox').attr('src', e.target.result);
+                    }
+                    profilePic = input.files[0];
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+    function UpdateSecurityUser()
+    {
+        var name = $("#txtUserName").val();
+        var phoneNo = $("#txtPhoneNumber").val();
+        var email = $("#txtEmail").val();
+        var countryid = $("#ddlCountry").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateSecurityUserOwnInfo", "UserSecurity")",
+            data: { Name: name, phoneNo: phoneNo, email: email, countryId: countryid},
+        success: function (result) {
+            if (result.IsSuccess) {
+
+                var data = new FormData();
+                data.append("MyImages", profilePic);
+                $.ajax({
+                    url: '/UserSecurity/UpdateSecurityUserProfileImage',
+                    data: data,
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    success: function (result1) {
+
+                    }
+                });
+
+                toastr.success(result.Message);
+            }
+            else
+                toastr.error(result.Message);
+        },
+        error: function (result, textStatus, jqXHR) {
+
+        }
+    });
+    }
+    </script>
+}

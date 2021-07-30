@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Online Exam System</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/image/favicon.ico" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/lib/js")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/ToastrJS")
+    @Styles.Render("~/bundles/Toastr")
+    <script>
+    //session end
+    var sessionTimeoutWarning = @Session.Timeout- 1;
+
+    var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+    setTimeout('SessionEnd()', sTimeout);
+
+    function SessionEnd() {
+        window.location = "/Login/Logout";
+        }
+
+    </script>
+</head>
+<body>
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo"><a href=""><span></span>Online <i>Exam</i> Center<span></span></a></div>
+    <div class="br-sideleft sideleft-scrollbar">
+        <label class="sidebar-label pd-x-10 mg-t-20 tx-info">Main Menu</label>
+        <ul class="br-sideleft-menu">
+            <li class="br-menu-item">
+                
+            </li><!-- br-menu-item -->
+            <!-- br-menu-item -->
+
+            <li class="br-menu-item">
+
+            </li><!-- br-menu-item -->
+
+        </ul><!-- br-sideleft-menu -->
+
+
+    </div><!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+        <div class="br-header-left">
+            <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="fa fa-bars"></i></a></div>
+            <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="fa fa-bars"></i></a></div>
+            <!-- input-group -->
+        </div><!-- br-header-left -->
+        <div class="br-header-right">
+            <nav class="nav">
+
+                <!-- dropdown -->
+                <div class="dropdown">
+                    <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                        <span class="logged-name hidden-md-down">@Session["Name"].ToString()</span>
+                        <img src="@Session["ProfilePic"].ToString()" class="wd-32 rounded-circle" alt="">
+                        <span class="square-10 bg-success"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-header wd-250">
+                        <div class="tx-center">
+                            <a href="#"><img src="@Session["ProfilePic"].ToString()" class="wd-80 rounded-circle" alt=""></a>
+                            <h6 class="logged-fullname">@Session["Name"].ToString()</h6>
+
+                            <p>@Session["RoleName"].ToString()</p>
+                        </div>
+                        <hr>
+                        <ul class="list-unstyled user-profile-nav">
+
+                            @*<li><a href="@Url.Action("Logout", "LogIn")"><i class="icon ion-ios-folder"></i> Profile</a></li>*@
+                            <li><a href="#"><i class="fa fa-key"></i> Change Password</a></li>
+                        </ul>
+                        <hr>
+                        <ul class="list-unstyled user-profile-nav">
+
+                            @*<li><a href="@Url.Action("Logout", "LogIn")"><i class="icon ion-ios-folder"></i> Profile</a></li>*@
+                            <li><a href="@Url.Action("Logout", "LogIn")"><i class="icon ion-power"></i> Sign Out</a></li>
+                        </ul>
+                    </div><!-- dropdown-menu -->
+                </div><!-- dropdown -->
+            </nav>
+            <!-- navicon-right -->
+        </div><!-- br-header-right -->
+    </div><!-- br-header -->
+    <div class="br-mainpanel">
+        @RenderBody()
+        <footer class="br-footer">
+            <div class="footer-left">
+                <div class="mg-b-2">Copyright cisspguru&copy; 2020.All Rights Reserver</div>
+            </div>
+        </footer>
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+</body>
+</html>
+<script type="text/javascript">
+    $("input[type='text']").attr("autocomplete", "off");
+</script>

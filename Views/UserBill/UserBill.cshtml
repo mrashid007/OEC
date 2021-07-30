@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "UserBill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">User Bill</h6>
+    <div class="br-section-wrapper">
+        <div class="row mg-t-20">
+            <div class="col-lg">
+                <h6 class="br-section-label">User Name</h6>
+                @Html.DropDownList("ddlUserList", new SelectList(ViewBag.UserList, "UserId", "Name", ViewBag.UserId), "---Select User --- ", new { @class = "form-control form-control-dark" })
+            </div>
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <div class="col-lg">
+                    <h6 class="br-section-label">Start  Date </h6>
+                    <input type="text" id="txtStartDate" title="Start  Date" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+                </div><!-- col -->
+           </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <div class="col-lg">
+                    <h6 class="br-section-label">End  Date </h6>
+                    <input type="text" id="txtEndDate" title="End  Date" class="form-control fc-datepicker" placeholder="MM/DD/YYYY">
+                </div><!-- col -->
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+                <h6 class="br-section-label">&nbsp;</h6>
+                <input type="submit" value="Show" class="btn btn-info" onclick="ShowUserBill();" />
+            </div><!-- col-4 -->
+            <div class="col-lg mg-t-10 mg-lg-t-0">
+              
+            </div><!-- col-4 -->
+        </div><!-- row -->
+
+        <div id="billDiv">
+            @{
+
+                Html.RenderAction("_UserBillDetail", "UserBill");
+            }
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/lib/formjs")
+    <script type="text/javascript">
+            $(function () {
+                $('.fc-datepicker').datepicker({
+                    showOtherMonths: true,
+                    selectOtherMonths: true
+                });
+                var date = new Date();
+                date.setDate(date.getDate());
+                $('#txtStartDate').datepicker('setDate', date);
+                $('#txtEndDate').datepicker('setDate', date);
+            });
+
+            function ShowUserBill()
+            {
+                var userid='0';
+                if ($("#ddlUserList").val() != '')
+                    userid = $("#ddlUserList").val()
+
+                var startDate = '0';
+                if ($("#txtStartDate").val() != '')
+                    startDate = $("#txtStartDate").val();
+
+                var endDate = '0';
+                if ($("#txtEndDate").val() != '')
+                    endDate = $("#txtEndDate").val();
+
+                $.ajax({
+                    url: "@Url.Action("UserBillDetailSearch", "UserBill")",
+                    data: { userid: userid, startDate: startDate, endDate: endDate },
+                    type: "post",
+                    success: function (result) {
+                        $("#billDiv").html(result);
+                    }
+                });
+              }
+
+    </script>
+}

@@ -1,0 +1,90 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.SecurityUserVM>
+
+    <div class="bd bd-white-1 rounded table-responsive mg-t-20">
+        <table class="table table-bordered mg-b-0">
+            <thead class="thead-colored thead-primary">
+                <tr>
+                    <th>SL No.</th>
+                    <th>Name</th>
+                    <th>PhoneNo</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    @*<th>Pass Reset</th>*@
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int slNo = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @slNo
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StatusName)
+                            </td>
+                           @* <td>
+                                <a onclick="ResetPasswordSave('@item.UserId')" href="#">Reset</a>
+                            </td>*@
+                            <td style="text-align:center">
+                                <a href='@Url.Action("SecurityUserDetail", "UserSecurity", new { userid = item.UserId })' title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        slNo = slNo + 1;
+                    }
+                }
+            </tbody>
+        </table>
+        <div>
+            <ul class="pagination">
+                @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a onclick="ShowPage(@i-1)" class="page-link" title="Edit">
+                            @i
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div><!-- bd-0 -->
+
+    <script type="text/javascript">
+        function ShowPage(currentPage) {
+                    $.ajax({
+                url: "@Url.Action("_SecurityUserList", "UserSecurity")",
+                        data: { usetType :"Web",currentPage: currentPage},
+                type: "post",
+                success: function (result) {
+                    $("#securityUserDiv").html(result);
+                }
+            });
+        }
+        function ResetPasswordSave(loginId) {
+            $.ajax({
+                url: "@Url.Action("ResetPasswordSave", "Login")",
+                data: { loginId: loginId},
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        toastr.success(result.Message);
+                    }
+                    else if (!result.IsSuccess) {
+                        toastr.error(result.Message);
+                    }
+                }
+            });
+        }
+    </script>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<OnlineExamCenter.ModelsVM.SecurityQuestion>
+@{
+    ViewBag.Title = "UserSecurityQuestionIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="br-pagebody">
+    <h6 class="br-section-label">SECURITY QUESTION</h6>
+    <div class="br-section-wrapper">
+        <div class="row">
+            <div class="col-lg">
+                <a href="@Url.Action("UserSecurityQuestion", "UserSecurity")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>New</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 ">
+
+                <div class="bd bd-white-1 rounded table-responsive">
+                    <table class="table table-sm table-bordered table-hover">
+                        <thead class="thead-colored thead-primary">
+                            <tr>
+                                <th>
+                                   Security Question
+                                </th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Question)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StatusName)
+                                    </td>
+                                    <td>
+                                        <a href='@Url.Action("UserSecurityQuestionDetail", "UserSecurity", new { questionId = item.QuestionId })' title="Edit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
